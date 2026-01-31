@@ -2,6 +2,9 @@ import ExpenseList from "./components/ExpenseList"
 ExpenseList;
 import ExpenseFilter from "./components/ExpenseFilter";
 import { useState } from "react"
+import ExpenseForm from "./components/ExpenseForm";
+import categories from "./categories";
+import { da } from "zod/locales";
 
 function App() {
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -14,7 +17,10 @@ function App() {
   const visibleExpenses = selectedCategory ? expenses.filter(e => e.category === selectedCategory) : expenses;
 
   return (
-    <div>
+    <div className="container mt-5">
+      <div className="mb-5">
+        <ExpenseForm onSubmit={expense => setExpenses([...expenses, {...expense, id: expenses.length + 1}])}/>
+      </div>
       <div className="mb-3"><ExpenseFilter onSelectCategory={(category) => setSelectedCategory(category)} /></div>
       <ExpenseList expenses={visibleExpenses} onDelete={(id) => setExpenses(expenses.filter((e) => e.id !== id))} />
     </div>
